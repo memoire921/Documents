@@ -5,70 +5,115 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>input 태그</title>
+    <title>form 태그와 submit</title>
 </head>
 
 <body>
     <!-- 
-        < input 태그  >
+        < form 태그  >
 
-    - 폼(form) 태그를 구성하는 태그중의 하나로 입력 형식 지정.
+    - 입력 컨트롤을 이용해 사용자로부터 입력 받은 데이터를 서버에 전송하기 위해 입력 컨트롤
+      요소들을 그룹화하고 서버측에 전송할 입력 데이터 연결을 위한 실질적인 중간 매개체 역할을 담당.
+      input, button, select, textarea 태그 등으로 구성.
 
-      - type : 사용자가 입력 가능한 형식(text, password, email, radio, checkbox, button, sumit, reset, hidden, file)을
-               지정. type 에 따라 다른 사용 가능한 속성이 상이.
+    ===================================================================================================================
 
-    ====================================================================================================================
+        < form 태그의 속성 >
 
-        < input 태그의 type 속성 값이 text 인 경우  >
-    
-    - 입력상자 형태로 구현.
+    - action : 사용자로부터 입력된 데이터를 전송할 서버 URL 등을 지정.
 
-        - size : 화면상에 보이는 필드폭을 지정. 단, 일반적으로 CSS 에서 지정하는 것을 권장.
-        - minlength : 필드에 입력 가능한 최소 글자수 지정. 단, form 태그 내에서 전송(submit)을 해야만
-                      브라우저에서 제공되는 유효성 어시스트 확인 가능.
-        - maxlength : 필드에 입력 가능한 최대 글자수 지정.
-                      minlength 와 달리 입력 시 바로 maxlength 크기만큼만 입력 가능함을 확인 가능.
-                      단, 한글은 지정된 maxlength 보다 한 글자 더 추가 입력 가능함에 주의.
-        - value : 기본적으로 필드에 보여줄 hint 텍스트 지정. 단, 입력을 하여도 hint 텍스트가 자동으로 삭제되지는 않음.
-        - placeholder : value 속성과 같이 기본적으로 필드에 보여줄 hint 텍스트 지정.
-                        단, value 속성과 달리 hint 텍스트가 약간의 음영 처리되며, 입력을 하면 hint 텍스트가 자동으로
-                        삭제되는 특성.
-        - readonly : 쓰기가 금지되는 읽기 전용 입력 상자. 차후 스크립트를 통해 readonly 속성을 설정 및 해제함으로써
-                     상황에 따른 입력 허용 및 불가를 설정 가능.
+    - name : 서버에서 인식 가능한 식별자 지정.
+             서버에서의 식별자는 name 속성만 가능하며, id 는 CSS 나 자바스크립트등에서 구분하기 위한 식별자임에 유의.
+
+    - method : 데이터 전송 방식을 구분.( get, post )    
+        > get : 검색어와 같이 소량의 빠른 데이터 전송에 유리하나 post방식에 비해 보안에 취약.
+                 ( method 속성 생략 시 디폴트 )
+        > post : 아이디, 패스워드, 개인정보등과 같이 보안이 필요되는 데이터나 대량의 데이터 전송에 대하여 적합.
+
+    - novalidate : form 그룹에 속해 있는 모든 태그 및 속성에 대한 유효성 검사 해제.
+                   form 태그에 novalidate 속성을 지정함으로써 브라우저 별로 제공되는 유효성 텍스트와 같은 인터페이스를
+                   차후 학습할 스크립트를 통해 일관된 인터페이스로 통합하기 위해 form 그룹 차원에서 임시로 지정.
+
+    ===================================================================================================================
+
+        < input 태그의 type 속성 값이 submit 인 경우 >
+
+    - 폼 내에 입력되거나 설정되어진 값들을 폼태그에 설정된 action 속성의 위치로 전송 역할을 하는 버튼 생성.
+
+        > value : submit 버튼에 표시할 텍스트 지정.
+
      -->
-    <div>입력 텍스트1 :
-        <input type="text">
-    </div>
 
-    <div>입력 텍스트2 :
-        <input type="text" size="3">
-    </div>
+    <!-- method 생략 시 default 는 get 방식.-->
+    <form action="./html/server.html" name="studentInfo">
+        <div>
+            <label for="named">이름 :</label>
+            <input type="text" id="named" name="named" minlength="3" maxlength="5">
+        </div>
 
-    <!-- form 태그 내에서 전송(submit)을 해야만 유효성 체크 확인 가능. -->
-    <div>입력 텍스트3 :
-        <input type="text" minlength="5">
-    </div>
+        <div>
+            <label for="stNum">학번 :</label>
+            <input type="text" id="stNum" name="stNum" placeholder="2자리만 입력 가능" minlength="2" maxlength="2">
+        </div>
+
+        <input type="submit" name="transBtn" value="전송">
+    </form>
+
+    <!-- 
+        < input 태그의 required 속성 >
+
+    - input 태그의 type 지정을 통한 해당 컨틀롤들이 사용자의 직접적인 데이터 입력과 관련된 형식인 경우, 반드시 입력
+      되어야 할 필수 입력임을 지정. required 속성이 지정된 입력 인터페이스를 비워진 상태로 전송(submit)을 하면 전송이
+      되지 않으며 브라우저 별로 지원되는 유효성 텍스트 툴팁 창이 표시.    
+     -->
+    <!-- <form action="./html/server.html" name="studentInfo" method="get">
+        <div>
+            <label for="named">이름 :</label>
+            <input type="text" id="named" name="named" minlength="3" maxlength="5" required>
+        </div>
+        
+        <div>
+            <label for="stNum">학번 :</label>
+            <input type="text" id="stNum" name="stNum" placeholder="2자리만 입력 가능" minlength="2" maxlength="2" required>
+        </div>
+
+        <input type="submit" name="transBtn" value="전송">
+    </form> -->
+
+    <!-- novalidate 속성 지정을 통한 form 그룹 차원에서의 유효성 검사 해제. -->
+    <!-- <form action="./html/server.html" name="studentInfo" method="get" novalidate>
+        <div>
+            <label for="named">이름 :</label>
+            <input type="text" id="named" name="named" minlength="3" maxlength="5" required>
+        </div>
+
+        <div>
+            <label for="stNum">학번 :</label>
+            <input type="text" id="stNum" name="stNum" placeholder="2자리만 입력 가능" minlength="2" maxlength="2" required>
+        </div>
+
+        <input type="submit" name="transBtn" value="전송">
+    </form> -->
 
     <!--
-        입력 시 텍스트가 maxlength 만큼만 제한되는 것을 바로 확인 가능.
-        ( 한글의 경우 한 글자 더 추가 입력 가능. )
+        form 태그의 method 속성을 post 로 지정함으로써 전송 데이터가 암호화되어
+        전송 시 get 방식과 달리 주소창에 전송 정보가 표시되지 않음을 확인 가능.
+        단, action 속성을 통해 실제 서버와 연결을 해야만 실제 작동되므로 당 예제
+        에서는 실제 작동되지는 않음에 주의.
     -->
-    <div>입력 텍스트4 :
-        <input type="text" maxlength="5">
-    </div>
+    <!-- <form action="./html/server.html" name="studentInfo" method="post">
+        <div>
+            <label for="named">이름 :</label>
+            <input type="text" id="named" name="named" minlength="3" maxlength="5" required>
+        </div>
 
-    <div>입력 텍스트5 :
-        <input type="text" value="텍스트를 입력하세요^^ 저는 자동으로 지워지지 않아요~" size="50">
-    </div>
+        <div>
+            <label for="stNum">학번 :</label>
+            <input type="text" id="stNum" name="stNum" placeholder="2자리만 입력 가능" minlength="2" maxlength="2" required>
+        </div>
 
-    <div>입력 텍스트6 :
-        <input type="text" placeholder="텍스트를 입력하세요^^ 저는 자동으로 지워진답니다~" size="50">
-    </div>
-
-    <!-- readonly 속성과 같이 속성명(Property)과 값(Value)이 동일한 경우에는 속성명만 지정 가능. -->
-    <div>입력 텍스트7 :
-        <input type="text" value="읽기 전용 텍스트입니다~" readonly size="50">
-    </div>
+        <input type="submit" name="transBtn" value="전송">
+    </form> -->
 </body>
 
 </html>
